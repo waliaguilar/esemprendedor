@@ -1,0 +1,57 @@
+<section class="hero">
+  <div class="hero-badge">Abril · Edición Mensual</div>
+  <div class="logo-area">
+    <div class="logo-icon">🔥</div>
+    <div class="logo-title">Espíritu Emprendedor</div>
+  </div>
+  <h1>Guía de<span>Emprendedores</span></h1>
+  <p class="hero-sub">Adrogué · Buenos Aires · Argentina</p>
+  <div class="hero-cta">
+    <a href="#gastronomia" class="btn-primary">Explorar la guía</a>
+  </div>
+  <div class="scroll-hint">↓ &nbsp; scroll</div>
+</section>
+
+<div class="searchbar-wrap">
+  <div class="search-logo">EE</div>
+  <div class="search-input-wrap">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+    <input type="text" [(ngModel)]="search" placeholder="Buscá un rubro, servicio o nombre..." autocomplete="off" spellcheck="false">
+    <button class="search-clear" type="button" *ngIf="search" (click)="search = ''" aria-label="Limpiar">×</button>
+  </div>
+  <div class="search-count" *ngIf="search">{{ resultCount }} resultado{{ resultCount !== 1 ? 's' : '' }}</div>
+</div>
+
+<div class="no-results show" *ngIf="search && resultCount === 0" id="noResults">
+  <h3>Sin resultados</h3>
+  <p>Probá buscando otro rubro o nombre de emprendimiento.</p>
+</div>
+
+<div *ngFor="let section of visibleSections" [id]="section.id" class="section-wrap" [ngStyle]="{ 'background': section.bgLight ? 'var(--light-sky)' : 'transparent' }" [attr.data-section]="section.keywords">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag">{{ section.title }}</div>
+      <div><div class="section-label">{{ section.label }}</div></div>
+    </div>
+    <div class="cards-grid">
+      <app-card *ngFor="let card of section.cards" [icon]="card.icon" [chip]="card.chip" [name]="card.name" [service]="card.service" [contact]="card.contact" [featured]="card.featured" [backgroundImage]="card.backgroundImage" [highlightQuery]="search"></app-card>
+    </div>
+  </div>
+  <app-promo-banner *ngFor="let banner of promoBanners"
+    [title]="banner.title"
+    [text]="banner.text"
+    [href]="banner.href"
+    [buttonText]="banner.buttonText">
+  </app-promo-banner>
+</div>
+
+
+
+  <footer>
+    <div class="footer-logo">Espíritu Emprendedor</div>
+    <p>Guía de Emprendedores · Abril · Adrogué, Buenos Aires</p>
+    <br>
+    <p>Seguinos en Instagram: <span class="ig">&#64;espirituemprendedor.cpt</span></p>

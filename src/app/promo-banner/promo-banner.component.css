@@ -1,0 +1,45 @@
+.promo-banner {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--navy) 100%);
+  color: var(--white);
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-banner::before {
+  content: 'ESPÍRITU EMPRENDEDOR';
+  position: absolute;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 120px;
+  color: rgba(255,255,255,0.04);
+  white-space: nowrap;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  letter-spacing: 10px;
+}
+
+.promo-banner h2 {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 48px);
+  margin-bottom: 20px;
+  color: var(--sky);
+}
+
+.promo-banner p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.7);
+  max-width: 500px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+}
+
+.divider {
+  width: 80px;
+  height: 3px;
+  background: var(--accent);
+  margin: 0 auto 30px;
+}

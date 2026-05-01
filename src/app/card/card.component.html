@@ -1,0 +1,8 @@
+<div class="card" [class.card-featured]="featured" [ngStyle]="{ 'background-image': 'url(' + cardBackgroundImage + ')' }" [class.has-bg]="cardBackgroundImage">
+  <div *ngIf="cardBackgroundImage" class="card-bg" ></div>
+  <span class="card-icon">{{ icon }}</span>
+  <div class="chip" [innerHTML]="highlightText(chip)"></div>
+  <div class="card-name" [innerHTML]="highlightText(name)"></div>
+  <div class="card-service" [innerHTML]="highlightText(service)"></div>
+  <div class="card-contact" [innerHTML]="highlightText(contact)"></div>
+</div>
