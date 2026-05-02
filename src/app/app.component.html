@@ -39,6 +39,9 @@
     <div class="cards-grid">
       <app-card *ngFor="let card of section.cards" [icon]="card.icon" [chip]="card.chip" [name]="card.name" [service]="card.service" [contact]="card.contact" [featured]="card.featured" [backgroundImage]="card.backgroundImage" [highlightQuery]="search"></app-card>
     </div>
+    <div class="section-simple-card" *ngIf="section.simpleCard?.length">
+      <app-simple-card [items]="section.simpleCard"></app-simple-card>
+    </div>
   </div>
   <app-promo-banner *ngFor="let banner of promoBanners"
     [title]="banner.title"

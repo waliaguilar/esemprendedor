@@ -1,0 +1,15 @@
+<div class="simple-card">
+  <div *ngIf="items?.length" class="simple-card-list">
+    <div *ngFor="let item of items" class="simple-card-item">
+      <div class="simple-card-item-name">{{ item.name }}</div>
+      <div class="simple-card-item-service">{{ item.service }}</div>
+      <div class="simple-card-item-contact" [innerHTML]="formatText(item.contact)"></div>
+    </div>
+  </div>
+
+  <ng-template #singleItem>
+    <div class="simple-card-name">{{ name }}</div>
+    <div class="simple-card-service">{{ service }}</div>
+    <div class="simple-card-contact" [innerHTML]="formatText(contact)"></div>
+  </ng-template>
+</div>

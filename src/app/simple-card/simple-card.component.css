@@ -1,0 +1,55 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.simple-card {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  color: #111111;
+}
+
+.simple-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.simple-card-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.simple-card-item {
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+
+.simple-card-item-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.simple-card-item-service,
+.simple-card-item-contact {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #4d4d4d;
+}
+
+.simple-card-item-contact {
+  margin-top: 0.5rem;
+  color: #0b64a2;
+  white-space: pre-wrap;
+}
+
+.simple-card-name,
+.simple-card-service,
+.simple-card-contact {
+  line-height: 1.5;
+}

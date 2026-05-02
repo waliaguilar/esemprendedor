@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from './card/card.component';
 import { PromoBannerComponent } from './promo-banner/promo-banner.component';
+import { SimpleCardComponent } from './simple-card/simple-card.component';
 
 interface Card {
   icon: string;
@@ -10,8 +11,15 @@ interface Card {
   name: string;
   service: string;
   contact: string;
+  keywords?: string;
   featured?: boolean;
   backgroundImage?: string;
+}
+
+interface SimpleCardItem {
+  name: string;
+  service: string;
+  contact: string;
 }
 
 interface Section {
@@ -21,12 +29,13 @@ interface Section {
   bgLight: boolean;
   keywords: string;
   cards: Card[];
+  simpleCard?: SimpleCardItem[];
 }
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardComponent, PromoBannerComponent],
+  imports: [CommonModule, FormsModule, CardComponent, PromoBannerComponent, SimpleCardComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -79,6 +88,23 @@ export class AppComponent {
           service: 'Elaboración artesanal en horno a leña. Lunch · Viandas · Facturas · Tartas.',
           contact: '📍 Plaza Brown 211 – Adrogué<br>☎ Tel. 4600-0503 · 15-3732-2344<br>📍 Dr. Lucio Melendez 1531 – Adrogué · Tel. 4214-0714'
         }
+      ],
+      simpleCard: [
+        {
+          name: 'Pastelería Express',
+          service: 'Pedidos de tortas y postres listos en menos de 24 horas.',
+          contact: '📲 +54 9 11 1010-2020'
+        },
+        {
+          name: 'Menú Semanal',
+          service: 'Platos caseros y cajas de viandas para la semana.',
+          contact: '📧 menu@emprendegastro.com'
+        },
+        {
+          name: 'Catering en Casa',
+          service: 'Servicio a domicilio para eventos pequeños y reuniones.',
+          contact: '📲 +54 9 11 3030-4040'
+        }
       ]
     },
     {
@@ -101,6 +127,23 @@ export class AppComponent {
           name: 'Mejorísdar',
           service: 'Haciendo que las cosas pasen. Líneas de crédito para emprendedores, mejoramiento habitacional y cursos de capacitación.',
           contact: 'Escribinos para más información'
+        }
+      ],
+      simpleCard: [
+        {
+          name: 'Taller Creativo',
+          service: 'Clases cortas para emprendedores que quieren crear su marca.',
+          contact: '📲 +54 9 11 1313-1414'
+        },
+        {
+          name: 'Mentoría Online',
+          service: 'Acompañamiento digital para mejorar tus habilidades.',
+          contact: '📧 mentor@educacion.com'
+        },
+        {
+          name: 'Clases Grupales',
+          service: 'Cursos en grupo con descuentos especiales.',
+          contact: '📲 +54 9 11 1515-1616'
         }
       ]
     },
@@ -126,6 +169,23 @@ export class AppComponent {
           service: 'Distribución profesional de productos. Consultanos para conocer nuestro catálogo completo.',
           contact: 'Escribinos para más información'
         }
+      ],
+      simpleCard: [
+        {
+          name: 'Consultoría Express',
+          service: 'Asesoría rápida para tu empresa o emprendimiento.',
+          contact: '📲 +54 9 11 1717-1818'
+        },
+        {
+          name: 'Seguro Fácil',
+          service: 'Cotizaciones de seguros en pocos minutos.',
+          contact: '📧 seguros@profesionales.com'
+        },
+        {
+          name: 'Cotización Directa',
+          service: 'Consultas y presupuestos sin compromiso por WhatsApp.',
+          contact: '📲 +54 9 11 1919-2020'
+        }
       ]
     },
     {
@@ -143,6 +203,23 @@ export class AppComponent {
           contact: 'Consultanos por disponibilidad',
           featured: true
         }
+      ],
+      simpleCard: [
+        {
+          name: 'Check-in 24h',
+          service: 'Llegadas nocturnas y atención fuera de horario.',
+          contact: '📲 +54 9 11 2121-2222'
+        },
+        {
+          name: 'Suite Ejecutiva',
+          service: 'Espacios cómodos para estadías de trabajo y descanso.',
+          contact: '📧 suites@alojamientos.com'
+        },
+        {
+          name: 'Renta Mensual',
+          service: 'Tarifas especiales para estadías prolongadas.',
+          contact: '📲 +54 9 11 2323-2424'
+        }
       ]
     },
     {
@@ -155,9 +232,27 @@ export class AppComponent {
         {
           icon: '⚡',
           chip: 'Taller',
+          keywords: 'electricista instalaciones reparaciones doméstico industrial placas',
           name: 'Del Río e Hijos',
           service: 'Taller de electricidad con trayectoria. Servicio técnico, instalaciones y reparaciones para el hogar y la industria.',
           contact: 'Consultanos para presupuesto'
+        }
+      ],
+      simpleCard: [
+        {
+          name: 'Instalación Express',
+          service: 'Conexiones y reparaciones eléctricas en menos de 48 horas.',
+          contact: '📲 +54 9 11 2525-2626'
+        },
+        {
+          name: 'Revisión Técnica',
+          service: 'Inspecciones preventivas para dejar todo en regla.',
+          contact: '📧 inspeccion@electricidad.com'
+        },
+        {
+          name: 'Mantenimiento',
+          service: 'Servicio continuo para instalaciones domiciliarias.',
+          contact: '📲 +54 9 11 2727-2828'
         }
       ]
     },
@@ -176,6 +271,23 @@ export class AppComponent {
           contact: 'Reservas y consultas: escribinos',
           featured: true
         }
+      ],
+      simpleCard: [
+        {
+          name: 'Decoración Premium',
+          service: 'Montaje completo de ambientación para tu evento.',
+          contact: '📲 +54 9 11 2929-3030'
+        },
+        {
+          name: 'Sonido y Luces',
+          service: 'Equipo profesional para fiestas y reuniones.',
+          contact: '📧 sonido@eventos.com'
+        },
+        {
+          name: 'Coordinación Integral',
+          service: 'Organización full service para celebraciones.',
+          contact: '📲 +54 9 11 3131-3232'
+        }
       ]
     },
     {
@@ -191,6 +303,23 @@ export class AppComponent {
           name: 'Óptica y Ortopedia González',
           service: 'Tu salud visual y ortopédica en manos expertas. Gran variedad de marcos, lentes y productos ortopédicos.',
           contact: 'Consultanos por turno y productos'
+        }
+      ],
+      simpleCard: [
+        {
+          name: 'Lentes de Sol',
+          service: 'Catálogo moderno con protección UV.',
+          contact: '📲 +54 9 11 3333-3434'
+        },
+        {
+          name: 'Examen Visual',
+          service: 'Chequeo de la vista con profesionales en el local.',
+          contact: '📧 examen@opticas.com'
+        },
+        {
+          name: 'Marcos con Estilo',
+          service: 'Diseños exclusivos para todos los gustos.',
+          contact: '📲 +54 9 11 3535-3636'
         }
       ]
     },
@@ -208,6 +337,13 @@ export class AppComponent {
           service: 'Colchones y futones de calidad para tu hogar. Amplia variedad de medidas y modelos.',
           contact: '📞 1163647870'
         }
+      ],
+      simpleCard: [
+        {
+          name: 'Descanso Premium',
+          service: 'Colchones ergonómicos con entrega en Adrogué.',
+          contact: '📲 +54 9 11 9900-7777'
+        }
       ]
     },
     {
@@ -224,6 +360,13 @@ export class AppComponent {
           service: 'Tu vehículo seguro en el centro de Adrogué. Estacionamiento cubierto y vigilado.',
           contact: 'Consultanos por tarifas y disponibilidad'
         }
+      ],
+      simpleCard: [
+        {
+          name: 'Guardado Seguro',
+          service: 'Estacionamiento cubierto con vigilancia 24/7.',
+          contact: '📲 +54 9 11 8801-2323'
+        }
       ]
     },
     {
@@ -239,6 +382,13 @@ export class AppComponent {
           name: 'Marbyn',
           service: 'Distribución eficiente de productos con cobertura en la zona sur del Gran Buenos Aires.',
           contact: 'Consultanos por catálogo'
+        }
+      ],
+      simpleCard: [
+        {
+          name: 'Envío Eficiente',
+          service: 'Logística y entrega para pedidos mayoristas.',
+          contact: '📲 +54 9 11 7701-3434'
         }
       ]
     },
@@ -264,6 +414,13 @@ export class AppComponent {
           service: 'Flexibilizá tus entregas. Servicio de distribución adaptable a las necesidades de tu negocio.',
           contact: 'Consultanos por cobertura y tarifas'
         }
+      ],
+      simpleCard: [
+        {
+          name: 'Envíos Flexibles',
+          service: 'Planes de entrega adaptados a tus necesidades.',
+          contact: '📲 +54 9 11 6601-4545'
+        }
       ]
     }
   ];
@@ -285,18 +442,26 @@ export class AppComponent {
     );
   }
 
+  private simpleCardMatches(item: SimpleCardItem, query: string): boolean {
+    return (
+      this.matchesText(item.name, query) ||
+      this.matchesText(item.service, query)
+    );
+  }
+
   get visibleSections() {
     const query = this.normalizedQuery;
     return this.sections
       .map(section => {
         const sectionMatch = query && section.keywords.includes(query);
         const cards = section.cards.filter(card => !query || sectionMatch || this.cardMatches(card, query));
-        return { ...section, cards };
+        const simpleCard = section.simpleCard?.filter(item => !query || sectionMatch || this.simpleCardMatches(item, query)) ?? [];
+        return { ...section, cards, simpleCard };
       })
-      .filter(section => section.cards.length > 0);
+      .filter(section => section.cards.length > 0 || section.simpleCard.length > 0);
   }
 
   get resultCount(): number {
-    return this.visibleSections.reduce((total, section) => total + section.cards.length, 0);
+    return this.visibleSections.reduce((total, section) => total + section.cards.length + (section.simpleCard?.length ?? 0), 0);
   }
 }
