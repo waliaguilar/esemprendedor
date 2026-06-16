@@ -1,3 +1,20 @@
+Frontend design
+
+Use when you need help improving or creating frontend UI design, including layout refinement, color palettes, typography, spacing, responsive behavior, accessibility, and modern visual polish. Ideal for Angular, HTML, CSS, and responsive web UI improvements.
+
+When to use:
+- Improve visual hierarchy and spacing for components
+- Create or refine responsive layouts and breakpoints
+- Design accessible color palettes and contrast adjustments
+- Suggest typography, sizing, and rhythm for better readability
+- Propose CSS architecture (BEM, utility classes, CSS variables)
+- Update component markup for semantics and ARIA
+
+Deliverables:
+- Concrete CSS/HTML examples or component templates
+- Accessibility checklist and suggested fixes
+- Responsive behavior examples and breakpoints
+- Small, copy-pasteable style snippets and patterns
 ---
 name: frontend-design
 user-invocable: true

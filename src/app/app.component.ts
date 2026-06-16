@@ -41,6 +41,12 @@ interface Section {
 })
 export class AppComponent {
   search = '';
+  isSearchFocused = false;
+  isLoading = false;
+
+  get sortedSections() {
+    return [...this.sections].sort((a, b) => a.title.localeCompare(b.title, 'es', { sensitivity: 'base' }));
+  }
 
   promoBanners = [
     {
@@ -463,5 +469,49 @@ export class AppComponent {
 
   get resultCount(): number {
     return this.visibleSections.reduce((total, section) => total + section.cards.length + (section.simpleCard?.length ?? 0), 0);
+  }
+
+  onSectionSelect(sectionId: string) {
+    if (!sectionId) return;
+    // clear search and scroll to the section
+    this.search = '';
+    this.isSearchFocused = false;
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  onSearchFocus() {
+    this.isSearchFocused = true;
+  }
+
+  onSearchBlur() {
+    // Small delay to allow click handler on panel items to fire
+    setTimeout(() => {
+      this.isSearchFocused = false;
+    }, 200);
+  }
+
+  get hasSearchResults(): boolean {
+    if (!this.search.trim()) return false;
+    return this.resultCount > 0;
+  }
+
+  get showEmptyResults(): boolean {
+    return this.search.trim().length > 0 && this.resultCount === 0;
+  }
+
+  get featuredCards(): Card[] {
+    return this.sections
+      .flatMap(s => s.cards.filter(c => c.featured))
+      .slice(0, 2);
+  }
+
+  get displayedFeaturedCards(): Card[] {
+    if (this.search) {
+      return this.visibleSections.flatMap(s => s.cards.filter(c => c.featured));
+    }
+    return this.featuredCards;
   }
 }

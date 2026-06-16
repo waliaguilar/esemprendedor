@@ -12,17 +12,99 @@
   <div class="scroll-hint">↓ &nbsp; scroll</div>
 </section>
 
-<div class="searchbar-wrap">
+<div class="searchbar-wrap" [class.search-open]="isSearchFocused">
   <div class="search-logo">EE</div>
   <div class="search-input-wrap">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8" />
       <line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
-    <input type="text" [(ngModel)]="search" placeholder="Buscá un rubro, servicio o nombre..." autocomplete="off" spellcheck="false">
+    <input 
+      type="text" 
+      [(ngModel)]="search" 
+      placeholder="Buscá un rubro, servicio o nombre..." 
+      autocomplete="off" 
+      spellcheck="false"
+      (focus)="onSearchFocus()"
+      (blur)="onSearchBlur()"
+      aria-label="Buscar">
     <button class="search-clear" type="button" *ngIf="search" (click)="search = ''" aria-label="Limpiar">×</button>
   </div>
   <div class="search-count" *ngIf="search">{{ resultCount }} resultado{{ resultCount !== 1 ? 's' : '' }}</div>
+</div>
+
+<!-- Backdrop -->
+<div class="search-backdrop" *ngIf="isSearchFocused" (click)="isSearchFocused = false"></div>
+
+<!-- Floating Search Panel -->
+<div class="search-panel" *ngIf="isSearchFocused" [class.mobile]="true">
+  <div class="search-panel-container">
+    <!-- Mobile Close Button -->
+    <div class="search-panel-header">
+      <button class="close-btn" (click)="isSearchFocused = false" aria-label="Cerrar búsqueda">✕</button>
+    </div>
+
+    <!-- Two-Column Layout -->
+    <div class="search-panel-content">
+      <!-- Left Column: Suggestions -->
+      <div class="search-suggestions">
+        <div *ngIf="!search" class="suggestions-empty-state">
+          <h3>Explorar secciones</h3>
+          <p>Selecciona una categoría para empezar</p>
+          <div class="quick-sections">
+            <button 
+              *ngFor="let section of sortedSections" 
+              class="quick-section-btn"
+              (click)="onSectionSelect(section.id)">
+              {{ section.title }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="search && !showEmptyResults" class="suggestions-list">
+          <h3>{{ hasSearchResults ? 'Resultados' : 'Buscando...' }}</h3>
+          <div *ngFor="let section of visibleSections" class="suggestion-group">
+            <h4>{{ section.title }}</h4>
+            <div class="suggestion-items">
+              <button 
+                *ngFor="let card of section.cards" 
+                class="suggestion-item"
+                (click)="onSectionSelect(section.id)">
+                <span class="item-icon">{{ card.icon }}</span>
+                <span class="item-name">{{ card.name }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="showEmptyResults" class="empty-results-state">
+          <h3>Sin resultados</h3>
+          <p>No encontramos coincidencias para "{{ search }}"</p>
+          <div class="suggested-alternatives">
+            <p class="alt-title">Prueba con:</p>
+            <button *ngFor="let section of sortedSections.slice(0, 3)" class="alt-btn" (click)="onSectionSelect(section.id)">
+              {{ section.title }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Featured Products -->
+      <div class="search-featured" *ngIf="!search || hasSearchResults">
+        <h3>Destacados</h3>
+        <div class="featured-list">
+          <div *ngFor="let card of displayedFeaturedCards" class="featured-item">
+            <div class="featured-icon">{{ card.icon }}</div>
+            <div class="featured-info">
+              <h4>{{ card.name }}</h4>
+              <p class="featured-service">{{ card.service }}</p>
+              <p class="featured-contact" [innerHTML]="card.contact"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="no-results show" *ngIf="search && resultCount === 0" id="noResults">
