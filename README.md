@@ -27,7 +27,7 @@ Then open your browser at `http://localhost:4200`. The app will reload automatic
 
 ## Build
 
-To build the project for production:
+To build the project for production
 
 ```bash
 npm run build
