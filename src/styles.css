@@ -29,7 +29,7 @@ body {
 
 .hero {
   background: var(--navy);
-  min-height: 100vh;
+  min-height: calc(100vh - 20px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,7 +37,7 @@ body {
   text-align: center;
   position: relative;
   overflow: hidden;
-  padding: 60px 20px;
+  padding: 50px 20px 100px;
 }
 
 .hero::before {
@@ -81,8 +81,13 @@ body {
 }
 
 .logo-icon {
-  font-size: 48px;
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
   margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .logo-title {
@@ -94,7 +99,7 @@ body {
 
 .hero h1 {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(60px, 12vw, 140px);
+  font-size: clamp(30px, 6vw, 70px);
   line-height: 0.9;
   color: var(--white);
   letter-spacing: 2px;
@@ -305,7 +310,7 @@ input[type="text"]:focus {
 
 .search-panel-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 0;
   padding: 32px;
   min-height: 400px;
@@ -313,8 +318,13 @@ input[type="text"]:focus {
 
 /* Suggestions Column */
 .search-suggestions {
-  border-right: 1px solid var(--light-gray);
-  padding-right: 32px;
+  border-right: none;
+  padding-right: 0;
+}
+
+/* Featured Column */
+.search-featured {
+  display: none;
 }
 
 .search-suggestions h3 {
@@ -462,10 +472,6 @@ input[type="text"]:focus {
   transform: translateY(-1px);
 }
 
-/* Featured Column */
-.search-featured {
-  padding-left: 32px;
-}
 
 .search-featured h3 {
   font-size: 18px;

@@ -89,20 +89,7 @@
         </div>
       </div>
 
-      <!-- Right Column: Featured Products -->
-      <div class="search-featured" *ngIf="!search || hasSearchResults">
-        <h3>Destacados</h3>
-        <div class="featured-list">
-          <div *ngFor="let card of displayedFeaturedCards" class="featured-item">
-            <div class="featured-icon">{{ card.icon }}</div>
-            <div class="featured-info">
-              <h4>{{ card.name }}</h4>
-              <p class="featured-service">{{ card.service }}</p>
-              <p class="featured-contact" [innerHTML]="card.contact"></p>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
 </div>
