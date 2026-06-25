@@ -608,7 +608,7 @@ input[type="text"]:focus {
   }
 
   .searchbar-wrap {
-    padding: 12px 16px;
+    padding: 10px 12px;
     gap: 8px;
   }
 
@@ -621,7 +621,24 @@ input[type="text"]:focus {
   }
 
   .search-input-wrap {
+    flex: 1;
     max-width: 100%;
+    min-width: 0;
+  }
+
+  input[type="text"] {
+    font-size: 16px; /* prevent iOS auto-zoom */
+    padding: 12px 40px 12px 40px;
+  }
+
+  .search-clear {
+    right: 10px;
+    font-size: 20px;
+    padding: 8px;
+  }
+
+  .search-count {
+    font-size: 11px;
   }
 }
 
@@ -985,8 +1002,5 @@ footer .ig {
   .card-featured {
     grid-column: span 1;
     flex-direction: column;
-  }
-  .searchbar-wrap {
-    padding: 14px 20px;
   }
 }

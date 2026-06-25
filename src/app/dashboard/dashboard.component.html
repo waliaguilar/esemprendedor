@@ -1,0 +1,237 @@
+<!-- Toast Notification -->
+<div class="toast" *ngIf="toast" [class.toast-success]="toast.type === 'success'" [class.toast-error]="toast.type === 'error'">
+  <span class="toast-icon">{{ toast.type === 'success' ? '✓' : '✕' }}</span>
+  <span class="toast-msg">{{ toast.message }}</span>
+  <button class="toast-close" (click)="dismissToast()">×</button>
+</div>
+
+<!-- Page Header -->
+<div class="db-header">
+  <div class="db-header-left">
+    <h1 class="db-title">
+      <span class="db-title-icon">🗂️</span>
+      Administración de Tarjetas
+    </h1>
+    <p class="db-subtitle">Gestioná las tarjetas de la guía de emprendedores</p>
+  </div>
+  <button class="btn-primary" (click)="openCreateModal()">
+    <span>＋</span> Nueva Tarjeta
+  </button>
+</div>
+
+<!-- Filters Bar -->
+<div class="db-filters">
+  <div class="filter-group">
+    <label class="filter-label">Sección</label>
+    <select class="filter-select" [(ngModel)]="filterSectionId" (ngModelChange)="onSectionFilterChange()">
+      <option [ngValue]="null">Todas las secciones</option>
+      <option *ngFor="let section of sections" [ngValue]="section.id">{{ section.title }}</option>
+    </select>
+  </div>
+  <div class="filter-group filter-search">
+    <label class="filter-label">Buscar</label>
+    <div class="search-input-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <input type="text" class="filter-input" [(ngModel)]="searchQuery" placeholder="Nombre, chip, servicio..." autocomplete="off">
+      <button class="clear-btn" *ngIf="searchQuery" (click)="searchQuery = ''" title="Limpiar">×</button>
+    </div>
+  </div>
+  <div class="filter-group filter-actions">
+    <button class="btn-ghost" (click)="clearFilters()" *ngIf="filterSectionId || searchQuery">
+      Limpiar filtros
+    </button>
+  </div>
+  <div class="filter-count">
+    <span>{{ filteredCards.length }} tarjeta{{ filteredCards.length !== 1 ? 's' : '' }}</span>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-state" *ngIf="isLoading">
+  <div class="spinner"></div>
+  <p>Cargando tarjetas...</p>
+</div>
+
+<!-- Empty State -->
+<div class="empty-state" *ngIf="!isLoading && filteredCards.length === 0">
+  <div class="empty-icon">📭</div>
+  <h3>Sin tarjetas</h3>
+  <p *ngIf="searchQuery || filterSectionId">No hay resultados para los filtros aplicados.</p>
+  <p *ngIf="!searchQuery && !filterSectionId">Todavía no hay tarjetas. ¡Creá la primera!</p>
+  <button class="btn-primary" (click)="openCreateModal()" *ngIf="!searchQuery && !filterSectionId">
+    Nueva Tarjeta
+  </button>
+</div>
+
+<!-- Cards Table -->
+<div class="table-wrap" *ngIf="!isLoading && filteredCards.length > 0">
+  <table class="cards-table">
+    <thead>
+      <tr>
+        <th class="col-icon">Ícono</th>
+        <th class="col-name">Nombre</th>
+        <th class="col-chip">Categoría</th>
+        <th class="col-section">Sección</th>
+        <th class="col-contact">Contacto</th>
+        <th class="col-feat">Destacada</th>
+        <th class="col-actions">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let card of filteredCards" class="table-row">
+        <td class="col-icon">
+          <span class="card-icon-cell">{{ card.icon }}</span>
+        </td>
+        <td class="col-name">
+          <div class="card-name">{{ card.name }}</div>
+          <div class="card-service-preview">{{ card.service | slice:0:60 }}{{ card.service.length > 60 ? '…' : '' }}</div>
+        </td>
+        <td class="col-chip">
+          <span class="chip-badge">{{ card.chip }}</span>
+        </td>
+        <td class="col-section">
+          <span class="section-badge">{{ getSectionTitle(card.sectionId) }}</span>
+        </td>
+        <td class="col-contact">
+          <span class="contact-text">{{ card.contact | slice:0:50 }}{{ card.contact.length > 50 ? '…' : '' }}</span>
+        </td>
+        <td class="col-feat">
+          <span class="featured-badge" [class.featured-yes]="card.featured" [class.featured-no]="!card.featured">
+            {{ card.featured ? '★ Sí' : '–' }}
+          </span>
+        </td>
+        <td class="col-actions">
+          <div class="action-btns">
+            <button class="btn-edit" (click)="openEditModal(card)" title="Editar">
+              ✏️ Editar
+            </button>
+            <button class="btn-delete" (click)="confirmDelete(card)" title="Eliminar">
+              🗑️ Eliminar
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ─── Create / Edit Modal ─────────────────────────────────────────────── -->
+<div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+<div class="modal" *ngIf="showModal" role="dialog" [attr.aria-label]="isEditMode ? 'Editar tarjeta' : 'Nueva tarjeta'">
+  <div class="modal-header">
+    <h2 class="modal-title">{{ isEditMode ? '✏️ Editar Tarjeta' : '＋ Nueva Tarjeta' }}</h2>
+    <button class="modal-close" (click)="closeModal()" aria-label="Cerrar">×</button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="saveCard()" class="modal-body">
+
+    <!-- Row 1: Section + Icon -->
+    <div class="form-row">
+      <div class="form-group" [class.has-error]="isInvalid('sectionId')">
+        <label class="form-label">Sección <span class="required">*</span></label>
+        <select class="form-control" formControlName="sectionId">
+          <option [ngValue]="null" disabled>Seleccioná una sección</option>
+          <option *ngFor="let section of sections" [ngValue]="section.id">{{ section.title }}</option>
+        </select>
+        <span class="error-msg" *ngIf="isInvalid('sectionId')">Seleccioná una sección.</span>
+      </div>
+
+      <div class="form-group form-group-sm" [class.has-error]="isInvalid('icon')">
+        <label class="form-label">Ícono (emoji) <span class="required">*</span></label>
+        <input type="text" class="form-control" formControlName="icon" placeholder="🔥" maxlength="10">
+        <span class="error-msg" *ngIf="isInvalid('icon')">Ingresá un ícono.</span>
+      </div>
+    </div>
+
+    <!-- Row 2: Name + Chip -->
+    <div class="form-row">
+      <div class="form-group" [class.has-error]="isInvalid('name')">
+        <label class="form-label">Nombre <span class="required">*</span></label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Ej: Bruzzone" maxlength="150">
+        <span class="error-msg" *ngIf="isInvalid('name')">Ingresá el nombre.</span>
+      </div>
+
+      <div class="form-group" [class.has-error]="isInvalid('chip')">
+        <label class="form-label">Categoría / Chip <span class="required">*</span></label>
+        <input type="text" class="form-control" formControlName="chip" placeholder="Ej: Panadería · Confitería" maxlength="100">
+        <span class="error-msg" *ngIf="isInvalid('chip')">Ingresá la categoría.</span>
+      </div>
+    </div>
+
+    <!-- Service -->
+    <div class="form-group" [class.has-error]="isInvalid('service')">
+      <label class="form-label">Descripción del servicio <span class="required">*</span></label>
+      <textarea class="form-control form-textarea" formControlName="service" rows="3" placeholder="Describí el servicio o emprendimiento..." maxlength="500"></textarea>
+      <span class="error-msg" *ngIf="isInvalid('service')">Ingresá la descripción del servicio.</span>
+    </div>
+
+    <!-- Contact -->
+    <div class="form-group" [class.has-error]="isInvalid('contact')">
+      <label class="form-label">Contacto <span class="required">*</span></label>
+      <input type="text" class="form-control" formControlName="contact" placeholder="Ej: 📍 Calle 123, Adrogué · 📲 @instagram" maxlength="300">
+      <span class="error-msg" *ngIf="isInvalid('contact')">Ingresá el contacto.</span>
+    </div>
+
+    <!-- Row 3: Background Image + Keywords -->
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Imagen de fondo <span class="optional">(opcional)</span></label>
+        <input type="text" class="form-control" formControlName="backgroundImage" placeholder="Ej: assets/mi-imagen.png">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Keywords <span class="optional">(opcional)</span></label>
+        <input type="text" class="form-control" formControlName="keywords" placeholder="Ej: catering tortas artesanal">
+      </div>
+    </div>
+
+    <!-- Featured -->
+    <div class="form-group form-check-group">
+      <label class="checkbox-label">
+        <input type="checkbox" class="form-checkbox" formControlName="featured">
+        <span class="checkbox-text">
+          <span class="star-icon">★</span> Tarjeta Destacada
+          <span class="check-hint">Las tarjetas destacadas aparecen en el tope de cada sección.</span>
+        </span>
+      </label>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn-ghost" (click)="closeModal()" [disabled]="isSaving">Cancelar</button>
+      <button type="submit" class="btn-primary" [disabled]="isSaving">
+        <span *ngIf="isSaving" class="spinner-sm"></span>
+        {{ isSaving ? 'Guardando...' : (isEditMode ? 'Guardar cambios' : 'Crear tarjeta') }}
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- ─── Delete Confirmation Modal ─────────────────────────────────────── -->
+<div class="modal-backdrop" *ngIf="showDeleteModal" (click)="cancelDelete()"></div>
+<div class="modal modal-sm" *ngIf="showDeleteModal" role="alertdialog">
+  <div class="modal-header">
+    <h2 class="modal-title delete-title">🗑️ Eliminar Tarjeta</h2>
+    <button class="modal-close" (click)="cancelDelete()" aria-label="Cerrar">×</button>
+  </div>
+  <div class="modal-body delete-body">
+    <p>¿Estás seguro de que querés eliminar esta tarjeta?</p>
+    <div class="delete-card-preview" *ngIf="deletingCard">
+      <span class="delete-card-icon">{{ deletingCard.icon }}</span>
+      <div>
+        <strong>{{ deletingCard.name }}</strong>
+        <span class="delete-card-chip">{{ deletingCard.chip }}</span>
+      </div>
+    </div>
+    <p class="delete-warning">Esta acción no se puede deshacer.</p>
+    <div class="modal-footer">
+      <button type="button" class="btn-ghost" (click)="cancelDelete()" [disabled]="isDeleting">Cancelar</button>
+      <button type="button" class="btn-danger" (click)="executeDelete()" [disabled]="isDeleting">
+        <span *ngIf="isDeleting" class="spinner-sm"></span>
+        {{ isDeleting ? 'Eliminando...' : 'Eliminar' }}
+      </button>
+    </div>
+  </div>
+</div>
