@@ -161,7 +161,7 @@ body {
 .searchbar-wrap {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 130;
   background: var(--navy);
   border-bottom: 2px solid var(--blue);
   padding: 14px 40px;
@@ -547,6 +547,17 @@ input[type="text"]:focus {
   }
 }
 
+@keyframes slideUpMobile {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -579,13 +590,15 @@ input[type="text"]:focus {
 
 @media (max-width: 768px) {
   .search-panel {
-    top: 50px;
+    top: 64px;
     left: 0;
     right: 0;
+    transform: none;
     max-width: 100vw;
     width: 100%;
     border-radius: 0;
-    max-height: calc(100vh - 50px);
+    max-height: calc(100vh - 64px);
+    animation: slideUpMobile 0.2s ease;
   }
 
   .search-panel-header {
