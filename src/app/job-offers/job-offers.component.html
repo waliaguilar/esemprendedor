@@ -1,0 +1,91 @@
+<section class="jobs-hero">
+  <a routerLink="/" class="back-link">← Volver a la guía</a>
+  <div class="jobs-hero-icon">💼</div>
+  <h1>Ofertas de <span>Trabajo</span></h1>
+  <p class="jobs-hero-sub">Oportunidades laborales en Adrogué y zona sur</p>
+</section>
+
+<div class="jobs-toolbar">
+  <div class="toolbar-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+    <input
+      type="text"
+      [(ngModel)]="search"
+      (ngModelChange)="applyFilters()"
+      placeholder="Buscar por puesto, empresa o rubro..."
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Buscar ofertas">
+    <button *ngIf="search" class="clear-btn" type="button" (click)="search = ''; applyFilters()" aria-label="Limpiar">×</button>
+  </div>
+
+  <div class="toolbar-filters">
+    <select [(ngModel)]="selectedType" (ngModelChange)="applyFilters()" aria-label="Filtrar por tipo">
+      <option *ngFor="let t of types" [value]="t.value">{{ t.label }}</option>
+    </select>
+
+    <select [(ngModel)]="selectedCategory" (ngModelChange)="applyFilters()" aria-label="Filtrar por categoría">
+      <option value="">Todas las categorías</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+
+    <button *ngIf="search || selectedType || selectedCategory" class="btn-clear-all" type="button" (click)="clearFilters()">
+      Limpiar filtros
+    </button>
+  </div>
+</div>
+
+<!-- Loading -->
+<div *ngIf="isLoading" class="jobs-feedback">
+  <div class="spinner"></div>
+  <p>Cargando ofertas...</p>
+</div>
+
+<!-- Error -->
+<div *ngIf="error && !isLoading" class="jobs-feedback jobs-error">
+  <span>⚠️</span>
+  <p>{{ error }}</p>
+  <button class="btn-retry" type="button" (click)="loadOffers()">Reintentar</button>
+</div>
+
+<!-- Empty -->
+<div *ngIf="!isLoading && !error && filteredOffers.length === 0" class="jobs-feedback">
+  <span class="empty-icon">🔍</span>
+  <p>No se encontraron ofertas con los filtros aplicados.</p>
+  <button *ngIf="search || selectedType || selectedCategory" class="btn-clear-all" type="button" (click)="clearFilters()">
+    Ver todas las ofertas
+  </button>
+</div>
+
+<!-- Count -->
+<div *ngIf="!isLoading && !error && filteredOffers.length > 0" class="jobs-count">
+  {{ filteredOffers.length }} oferta{{ filteredOffers.length !== 1 ? 's' : '' }} encontrada{{ filteredOffers.length !== 1 ? 's' : '' }}
+</div>
+
+<!-- Grid -->
+<div *ngIf="!isLoading && !error && filteredOffers.length > 0" class="jobs-grid">
+  <article
+    *ngFor="let offer of filteredOffers"
+    class="job-card"
+    [class.job-card--featured]="offer.featured">
+    <div class="job-card-header">
+      <div class="job-meta">
+        <span class="job-category">{{ offer.category }}</span>
+        <span class="job-type" [attr.data-type]="offer.type">{{ typeLabel(offer.type) }}</span>
+      </div>
+      <span *ngIf="offer.featured" class="job-badge">⭐ Destacada</span>
+    </div>
+    <h2 class="job-title">{{ offer.title }}</h2>
+    <p class="job-company">🏢 {{ offer.company }}</p>
+    <p class="job-location">📍 {{ offer.location }}</p>
+    <p class="job-description">{{ offer.description }}</p>
+    <div class="job-card-footer">
+      <span class="job-date">📅 {{ offer.publishedAt | date:'dd/MM/yyyy' }}</span>
+      <a [href]="'mailto:' + offer.contact" class="btn-apply">Contactar</a>
+    </div>
+  </article>
+</div>
