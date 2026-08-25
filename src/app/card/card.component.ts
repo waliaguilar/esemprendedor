@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { resolveBlobUrl } from '../utils/blob-url.util';
 
 @Component({
   selector: 'app-card',
@@ -22,7 +23,7 @@ export class CardComponent {
   constructor(private sanitizer: DomSanitizer) {}
 
   get cardBackgroundImage(): string {
-    return this.backgroundImage;
+    return resolveBlobUrl(this.backgroundImage);
   }
 
   highlightText(value: string): SafeHtml {

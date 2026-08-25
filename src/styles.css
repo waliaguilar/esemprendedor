@@ -759,6 +759,8 @@ mark {
 .card.has-bg {
   background: transparent;
   border: none;
+  /* Matches Instagram's vertical feed post ratio (1080x1350) used for card images */
+  aspect-ratio: 4 / 5;
 }
 
 .card.has-bg::before {

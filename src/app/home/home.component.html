@@ -51,7 +51,7 @@
             <button
               *ngFor="let section of sortedSections"
               class="quick-section-btn"
-              (click)="onSectionSelect(section.id)">
+              (click)="onSectionSelect(section.slug)">
               {{ section.title }}
             </button>
           </div>
@@ -65,7 +65,7 @@
               <button
                 *ngFor="let card of section.cards"
                 class="suggestion-item"
-                (click)="onSectionSelect(section.id)">
+                (click)="onSectionSelect(section.slug)">
                 <span class="item-icon">{{ card.icon }}</span>
                 <span class="item-name">{{ card.name }}</span>
               </button>
@@ -78,7 +78,7 @@
           <p>No encontramos coincidencias para "{{ search }}"</p>
           <div class="suggested-alternatives">
             <p class="alt-title">Prueba con:</p>
-            <button *ngFor="let section of sortedSections.slice(0, 3)" class="alt-btn" (click)="onSectionSelect(section.id)">
+            <button *ngFor="let section of sortedSections.slice(0, 3)" class="alt-btn" (click)="onSectionSelect(section.slug)">
               {{ section.title }}
             </button>
           </div>
@@ -93,7 +93,7 @@
   <p>Probá buscando otro rubro o nombre de emprendimiento.</p>
 </div>
 
-<div *ngFor="let section of visibleSections" [id]="section.id" class="section-wrap" [ngStyle]="{ 'background': section.bgLight ? 'var(--light-sky)' : 'transparent' }" [attr.data-section]="section.keywords">
+<div *ngFor="let section of visibleSections" [id]="section.slug" class="section-wrap" [ngStyle]="{ 'background': section.bgLight ? 'var(--light-sky)' : 'transparent' }" [attr.data-section]="section.keywords">
   <div class="section">
     <div class="section-header">
       <div class="section-tag">{{ section.title }}</div>
@@ -102,8 +102,8 @@
     <div class="cards-grid">
       <app-card *ngFor="let card of section.cards" [icon]="card.icon" [chip]="card.chip" [name]="card.name" [service]="card.service" [contact]="card.contact" [featured]="card.featured" [backgroundImage]="card.backgroundImage" [highlightQuery]="search"></app-card>
     </div>
-    <div class="section-simple-card" *ngIf="section.simpleCard?.length">
-      <app-simple-card [items]="section.simpleCard"></app-simple-card>
+    <div class="section-simple-card" *ngIf="section.simpleCards?.length">
+      <app-simple-card [items]="section.simpleCards"></app-simple-card>
     </div>
   </div>
   <app-promo-banner *ngFor="let banner of promoBanners"
