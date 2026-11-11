@@ -17,6 +17,8 @@ export class CardComponent {
   @Input() contact = '';
   @Input() featured = false;
   @Input() backgroundImage = '';
+  @Input() posterImage = '';
+  @Input() url?: string;
   @Input() highlightQuery = '';
 
   constructor(private sanitizer: DomSanitizer) {}

@@ -366,6 +366,7 @@ input[type="text"]:focus {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-decoration: none;
 }
 
 .quick-section-btn:hover {
@@ -406,6 +407,7 @@ input[type="text"]:focus {
   font-size: 14px;
   color: var(--navy);
   font-weight: 500;
+  text-decoration: none;
 }
 
 .suggestion-item:hover {

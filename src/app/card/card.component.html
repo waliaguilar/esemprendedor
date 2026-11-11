@@ -1,8 +1,23 @@
-<div class="card" [class.card-featured]="featured" [ngStyle]="{ 'background-image': 'url(' + cardBackgroundImage + ')' }" [class.has-bg]="cardBackgroundImage">
-  <div *ngIf="cardBackgroundImage" class="card-bg" ></div>
-  <span class="card-icon">{{ icon }}</span>
-  <div class="chip" [innerHTML]="highlightText(chip)"></div>
-  <div class="card-name" [innerHTML]="highlightText(name)"></div>
-  <div class="card-service" [innerHTML]="highlightText(service)"></div>
-  <div class="card-contact" [innerHTML]="highlightText(contact)"></div>
-</div>
+<a *ngIf="url; else unlinkedCard" class="card-link" [href]="url" target="_blank" rel="noopener noreferrer" [attr.aria-label]="name + ' (abre en una nueva pestaña)'">
+  <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+</a>
+<ng-template #unlinkedCard>
+  <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+</ng-template>
+<ng-template #cardContent>
+  <div class="card" [class.card-featured]="featured" [class.card-poster]="posterImage" [ngStyle]="{ 'background-image': 'url(' + cardBackgroundImage + ')' }" [class.has-bg]="cardBackgroundImage">
+    <img *ngIf="posterImage" class="card-poster-image" [src]="posterImage" [alt]="name" loading="lazy">
+    <div *ngIf="posterImage" class="card-poster-details">
+      <div class="chip" [innerHTML]="highlightText(chip)"></div>
+      <div class="card-name" [innerHTML]="highlightText(name)"></div>
+    </div>
+    <ng-container *ngIf="!posterImage">
+      <div *ngIf="cardBackgroundImage" class="card-bg"></div>
+      <span class="card-icon">{{ icon }}</span>
+      <div class="chip" [innerHTML]="highlightText(chip)"></div>
+      <div class="card-name" [innerHTML]="highlightText(name)"></div>
+      <div class="card-service" [innerHTML]="highlightText(service)"></div>
+      <div class="card-contact" [innerHTML]="highlightText(contact)"></div>
+    </ng-container>
+  </div>
+</ng-template>

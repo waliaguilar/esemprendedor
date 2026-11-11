@@ -1,3 +1,7 @@
 .section-simple-card {
   margin-top: 1.5rem;
 }
+
+.cards-grid {
+  grid-auto-rows: 1fr;
+}
