@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from '../card/card.component';
 import { PromoBannerComponent } from '../promo-banner/promo-banner.component';
+import { SimpleCardComponent } from '../simple-card/simple-card.component';
 import { FEATURED_BUSINESSES } from './featured-businesses';
+import { FREE_BUSINESSES } from './free-businesses';
 
 interface Card {
   icon: string;
@@ -15,6 +17,12 @@ interface Card {
   url?: string;
 }
 
+interface SimpleCardItem {
+  name: string;
+  service: string;
+  contact: string;
+}
+
 interface Section {
   id: string;
   title: string;
@@ -22,12 +30,13 @@ interface Section {
   bgLight: boolean;
   keywords: string;
   cards: Card[];
+  simpleCard?: SimpleCardItem[];
 }
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardComponent, PromoBannerComponent],
+  imports: [CommonModule, FormsModule, CardComponent, PromoBannerComponent, SimpleCardComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -48,6 +57,7 @@ export class HomeComponent {
 
   private createSections(): Section[] {
     const groups = new Map<string, Card[]>();
+    const simpleCardGroups = new Map<string, SimpleCardItem[]>();
 
     for (const business of FEATURED_BUSINESSES) {
       const cards = groups.get(business.category) ?? [];
@@ -63,14 +73,38 @@ export class HomeComponent {
       groups.set(business.category, cards);
     }
 
+    for (const business of FREE_BUSINESSES) {
+      const sectionTitle = [...groups.keys()].find(
+        title => this.normalizeCategory(title) === this.normalizeCategory(business.category)
+      ) ?? business.category.trim().replace(/\s+/g, ' ');
+      if (!groups.has(sectionTitle)) groups.set(sectionTitle, []);
+      const items = simpleCardGroups.get(sectionTitle) ?? [];
+      items.push({
+        name: business.name,
+        service: business.service,
+        contact: business.contact
+      });
+      simpleCardGroups.set(sectionTitle, items);
+    }
+
     return [...groups.entries()].map(([title, cards], index) => ({
       id: this.sectionId(title),
       title,
       label: `Sección ${String(index + 1).padStart(2, '0')}`,
       bgLight: index % 2 === 1,
       keywords: `${title} ${cards.map(card => card.name).join(' ')}`.toLocaleLowerCase(),
-      cards
+      cards,
+      simpleCard: simpleCardGroups.get(title) ?? []
     }));
+  }
+
+  private normalizeCategory(category: string): string {
+    return category
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .replace(/\s+/g, ' ')
+      .toLocaleLowerCase();
   }
 
   get sortedSections(): Section[] {
@@ -95,7 +129,16 @@ export class HomeComponent {
   }
 
   private cardMatches(card: Card, query: string): boolean {
-    return this.matchesText(card.name, query) || this.matchesText(card.chip, query);
+    return this.matchesText(card.name, query)
+      || this.matchesText(card.chip, query)
+      || this.matchesText(card.service, query)
+      || this.matchesText(card.contact, query);
+  }
+
+  private simpleCardMatches(item: SimpleCardItem, query: string): boolean {
+    return this.matchesText(item.name, query)
+      || this.matchesText(item.service, query)
+      || this.matchesText(item.contact, query);
   }
 
   get visibleSections(): Section[] {
@@ -104,13 +147,19 @@ export class HomeComponent {
       .map(section => {
         const sectionMatch = query && section.keywords.includes(query);
         const cards = section.cards.filter(card => !query || sectionMatch || this.cardMatches(card, query));
-        return { ...section, cards };
+        const simpleCard = section.simpleCard?.filter(
+          item => !query || sectionMatch || this.simpleCardMatches(item, query)
+        ) ?? [];
+        return { ...section, cards, simpleCard };
       })
-      .filter(section => section.cards.length > 0);
+      .filter(section => section.cards.length > 0 || section.simpleCard.length > 0);
   }
 
   get resultCount(): number {
-    return this.visibleSections.reduce((total, section) => total + section.cards.length, 0);
+    return this.visibleSections.reduce(
+      (total, section) => total + section.cards.length + (section.simpleCard?.length ?? 0),
+      0
+    );
   }
 
   trackBySectionId(_index: number, section: Section): string {

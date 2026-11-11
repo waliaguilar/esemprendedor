@@ -70,6 +70,13 @@
                 <span class="item-icon">{{ card.icon }}</span>
                 <span class="item-name">{{ card.name }}</span>
               </a>
+              <a
+                *ngFor="let item of section.simpleCard"
+                class="suggestion-item"
+                [href]="'#' + section.id"
+                (click)="onSectionSelect(section.id, $event)">
+                <span class="item-name">{{ item.name }}</span>
+              </a>
             </div>
           </div>
         </div>
@@ -103,6 +110,9 @@
       </div>
       <div class="cards-grid">
         <app-card *ngFor="let card of section.cards" [icon]="card.icon" [chip]="card.chip" [name]="card.name" [service]="card.service" [contact]="card.contact" [posterImage]="card.posterImage" [url]="card.url" [highlightQuery]="search"></app-card>
+      </div>
+      <div class="section-simple-card" *ngIf="section.simpleCard?.length">
+        <app-simple-card [items]="section.simpleCard"></app-simple-card>
       </div>
     </div>
     <app-promo-banner *ngFor="let banner of promoBanners"

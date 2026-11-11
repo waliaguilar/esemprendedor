@@ -27,7 +27,10 @@ export class SimpleCardComponent {
   formatText(value: string): SafeHtml {
     const text = (value || '').replace(/\n/g, '<br>');
     const escaped = this.escapeHtml(text);
-    return this.sanitizer.bypassSecurityTrustHtml(escaped.replace(/&lt;br&gt;/g, '<br>'));
+    const linked = escaped.replace(/\bIg\s+@([A-Za-z0-9._]+)/gi, (_, username: string) =>
+      `Ig <a href="https://www.instagram.com/${encodeURIComponent(username)}/" target="_blank" rel="noopener noreferrer">@${username}</a>`
+    );
+    return this.sanitizer.bypassSecurityTrustHtml(linked.replace(/&lt;br&gt;/g, '<br>'));
   }
 
   private escapeHtml(value: string): string {
