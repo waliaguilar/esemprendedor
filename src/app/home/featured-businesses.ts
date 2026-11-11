@@ -39,7 +39,7 @@ export const FEATURED_BUSINESSES: FeaturedBusiness[] = [
   { name: 'kairos calzada', category: 'Gastronomía y alimentación', image: 'assets/destacados/kairos-calzada.jpg', url: 'https://www.instagram.com/kairos.calzada' },
   { name: 'lucpack', category: 'Logística', image: 'assets/destacados/lucpack.jpg', url: 'https://www.instagram.com/lucpacklogistica' },
   { name: 'mefiboset', category: 'Servicios profesionales', image: 'assets/destacados/mefiboset.jpg', url: 'https://www.instagram.com/mefiboset.ok' },
-  { name: 'natalia romero', category: 'Arte', image: 'assets/destacados/natalia-romero.jpg', url: 'https://www.instagram.com/nataliaromero.cantante' },
+  { name: 'natalia romero', category: 'Educación', image: 'assets/destacados/natalia-romero.jpg', url: 'https://www.instagram.com/nataliaromero.cantante' },
   { name: 'neumaticos corban', category: 'Automotores, compra y venta, accesorios y servicios', image: 'assets/destacados/neumaticos-corban.jpg' },
   { name: 'trama consultorios', category: 'Servicios profesionales', image: 'assets/destacados/trama-consultorios.jpg', url: 'https://www.instagram.com/consultorio_psicologico_trama_' }
 ];
