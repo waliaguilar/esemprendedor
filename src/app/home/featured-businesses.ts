@@ -33,7 +33,7 @@ export const FEATURED_BUSINESSES: FeaturedBusiness[] = [
   { name: 'espacio samara', category: 'Eventos', image: 'assets/destacados/espacio-samara.jpg', url: 'https://www.instagram.com/espacio.samara' },
   { name: 'eugenia rivas laise', category: 'Servicios profesionales', image: 'assets/destacados/eugenia-rivas-laise.jpg', url: 'https://www.instagram.com/eugeniarlaise' },
   { name: 'factorytruck', category: 'Construcción', image: 'assets/destacados/factorytruck.jpg', url: 'https://www.instagram.com/factorytruck.arg' },
-  { name: 'genesis', category: 'Hogar, construcción, servicios técnicos', image: 'assets/destacados/genesis.jpg' },
+  { name: 'genesis', category: 'Automotores, compra y venta, accesorios y servicios', image: 'assets/destacados/genesis.jpg', url: 'https://www.instagram.com/tallermecanicogenesis' },
   { name: 'greco propiedades', category: 'Servicios profesionales', image: 'assets/destacados/greco-propiedades.jpg' },
   { name: 'grupo integro', category: 'Servicios profesionales', image: 'assets/destacados/grupo-integro.jpg', url: 'https://www.instagram.com/grupointegroseguros' },
   { name: 'kairos calzada', category: 'Gastronomía y alimentación', image: 'assets/destacados/kairos-calzada.jpg', url: 'https://www.instagram.com/kairos.calzada' },
