@@ -8,6 +8,7 @@ export interface FeaturedBusiness {
 export const FEATURED_BUSINESSES: FeaturedBusiness[] = [
   { name: 'A su imagen', category: 'Salud, bienestar y belleza', image: 'assets/destacados/a-su-imagen.jpg', url: 'https://www.instagram.com/asuimagen.entrenamiento' },
   { name: 'Aneres', category: 'Indumentaria, moda, accesorios y diseño personal', image: 'assets/destacados/aneres.jpg' },
+  { name: 'Alejandro Avila', category: 'Hogar, construcción, servicios técnicos', image: 'assets/destacados/AleAvila.jpeg' },
   { name: 'Bruzzone panadería y confitería', category: 'Gastronomía y alimentación', image: 'assets/destacados/bruzzone-panaderia-y-confiteria.jpg', url: 'https://www.instagram.com/bruzzone_panaderia' },
   { name: 'Casa erica pizzas artesanales', category: 'Gastronomía y alimentación', image: 'assets/destacados/casa-erica-pizzas-artesanales.jpg' },
   { name: 'Colchones', category: 'Hogar, construcción, servicios técnicos', image: 'assets/destacados/colchones.jpg' },
