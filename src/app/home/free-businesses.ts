@@ -8,10 +8,10 @@ export interface FreeBusiness {
 export const FREE_BUSINESSES: FreeBusiness[] = [
   {"category":"arte, regaleria, papeleria y productos personalizados","name":"Ailen T. | Artista","service":"Artista tradicional y digital.  Clases de dibujo","contact":"Ig @ailent.art | Tiktok: @ailent.art"},
   {"category":"Educación","name":"Ailen T. | Artista","service":"clases de dibujo y pintura","contact":"Ig @ailent.art | Tiktok: @ailent.art"},
-  {"category":"arte, regaleria, papeleria y productos personalizados","name":"Belia care","service":"Jabones artesanales para piel sensible. Sin resecar, apto niños- íntimos","contact":"Ig @belia.care"},
+  {"category":"arte, regaleria, papeleria y productos personalizados","name":"Belia care","service":"Jabones artesanales para piel sensible. Sin resecar, apto niños- íntimos","contact":"Ig @beliacare"},
   {"category":"indumentaria, moda, accesorios  y diseño personal","name":"BIJOU ANGY","service":"Bijou y accesorios","contact":"11 2773-3206"},
   {"category":"arte, regaleria, papeleria y productos personalizados","name":"Blessing","service":"Perfumes artesanales","contact":"11 4492-7646\nblessingperfum@gmail.com"},
-  {"category":"arte, regaleria, papeleria y productos personalizados","name":"Buenos Amigos","service":"Papelería creativa, decoración para candy bar. Transformamos ideas en detalles únicos","contact":"Ig @buenosamigosdg"},
+  {"category":"arte, regaleria, papeleria y productos personalizados","name":"Buenos Amigos","service":"Papelería creativa, decoración para candy bar. Transformamos ideas en detalles únicos","contact":"Ig @buenosamigosdesing"},
   {"category":"arte, regaleria, papeleria y productos personalizados","name":"Detalles que bendicen","service":"Regalería y librería cristiana- Productos personalizados - por mayor y menor","contact":"Ig @detalles_quebendicen"},
   {"category":"arte, regaleria, papeleria y productos personalizados","name":"ELIM_DECO","service":"Sublimaciones y Deco","contact":"Ig @elim_deco"},
   {"category":"arte, regaleria, papeleria y productos personalizados","name":"Mérida kintsugi","service":"Mate devocional - Talleres creativos. Arte que conecta con Dios","contact":"Ig @merida_kintsugi"},
